@@ -3,7 +3,14 @@ import { Observable } from 'rxjs';
 import { Grocery } from '../../../models/grocery.model';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { addToBucket, removeFromBucket } from '../../store/actions/bucket.action';
+import {
+  addToBucket,
+  removeFromBucket,
+} from '../../store/actions/bucket.action';
+import {
+  selectGroceries,
+  selectGroceriesByType,
+} from '../../store/selectors/grocery.selectors';
 
 @Component({
   selector: 'app-grocery',
@@ -16,10 +23,17 @@ export class GroceryComponent {
   groceries$?: Observable<Grocery[]>;
 
   constructor(private store: Store<{ groceries: Grocery[] }>) {
-    this.groceries$ = this.store.select('groceries');
+    this.groceries$ = this.store.select(selectGroceries);
   }
 
-  onTypeChange(event: Event) {}
+  onTypeChange(event: Event) {
+    const selectedType = (event.target as HTMLSelectElement).value;
+    if (selectedType) {
+      this.groceries$ = this.store.select(selectGroceriesByType(selectedType));
+    } else {
+      this.groceries$ = this.store.select(selectGroceries);
+    }
+  }
 
   increment(item: Grocery) {
     const payload = {
@@ -31,7 +45,7 @@ export class GroceryComponent {
   }
   decrement(item: Grocery) {
     const payload = {
-      id: item.id
+      id: item.id,
     };
     this.store.dispatch(removeFromBucket({ payload }));
   }
