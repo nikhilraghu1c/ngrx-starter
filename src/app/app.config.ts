@@ -11,6 +11,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { groceryReducer } from './store/reducers/grocery.reducer';
 import { bucketReducer } from './store/reducers/bucket.reducer';
+// import { GroceryEffects } from './store/effects/grocery.effects';
+import * as GroceryEffects from './store/effects/grocery.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       groceries: groceryReducer,
       myBucket: bucketReducer
     }),
-    provideEffects(),
+    provideEffects(GroceryEffects), // if class based effects, then we can directly provide the class here
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: false, // Restrict extension to log-only mode - True for production, false for development

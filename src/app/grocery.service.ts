@@ -9,6 +9,6 @@ export class GroceryService {
   constructor(private http:HttpClient) {}
 
   fetchAllGroceries(){
-    return this.http.get("http://localhost:5000/groceries")
+    return this.http.get("http://localhost:8000/groceries")
   }
 }
