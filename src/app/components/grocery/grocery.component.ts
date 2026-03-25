@@ -24,6 +24,8 @@ export class GroceryComponent {
 
   constructor(private store: Store<{ groceries: Grocery[] }>) {
     this.groceries$ = this.store.select(selectGroceries);
+    // Instead of select everywhere, we can also use selectSignal but selectsignal will work in case of zoneless app and we have to make our app zoneless in app config
+    // this.groceriesSignal = this.store.selectSignal(selectGroceries);
   }
 
   onTypeChange(event: Event) {
